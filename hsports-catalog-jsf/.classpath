@@ -16,5 +16,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/hsports-catalog-ejb"/>
+	<classpathentry kind="lib" path="C:/Users/luis/Desktop/server/wildfly-17.0.1.Final/modules/system/layers/base/javax/enterprise/api/main/cdi-api-2.0.SP1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

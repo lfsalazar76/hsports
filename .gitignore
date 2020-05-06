@@ -21,3 +21,4 @@
 
 # vm crash logs 
 hs_err_pid*
+/.metadata/
