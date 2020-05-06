@@ -8,31 +8,30 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
 
 @ApplicationScoped
-//@Alternative  //use it only if explicitly called
-public class LocalInventoryService implements InventoryService {
+@RemoteService
+@Alternative  //only will be used if explicitly called
+public class RemoteInventoryService implements InventoryService {
 
-	private Map<Long, InventoryItem> items = new HashMap<>() ;
-	
+	private Map<Long, InventoryItem> items = new HashMap<Long, InventoryItem>();
+
 	@Override
-	@Logging
 	public void createItem(Long catalogItemId, String name) {
-		long inventoryItemId = items.size() + 1 ;
+		long inventoryItemId = items.size() + 1;
 		this.items.put(inventoryItemId, new InventoryItem(inventoryItemId, catalogItemId, name, 0L));
 		this.printInventory();
-		
 	}
-	
-	private void printInventory() {
-		System.out.println("Local inventory contains: "); 
-		for(Entry<Long, InventoryItem> entry: this.items.entrySet() ){
+
+	public void printInventory() {
+		System.out.println("Remote inventory contains:");
+		for (Entry<Long, InventoryItem> entry : this.items.entrySet()) {
 			System.out.println(entry.getValue().getName());
 		}
 	}
 
 	@Override
 	public Long getQuantity(Long catalogItemId) {
-		return 0L;
+		// TODO Auto-generated method stub
+		return null;
 	}
-	
-	
+
 }

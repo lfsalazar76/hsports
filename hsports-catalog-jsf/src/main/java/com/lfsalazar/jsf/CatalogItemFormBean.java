@@ -5,37 +5,39 @@ import java.io.Serializable;
 import java.util.ArrayList ;
 import java.util.List;
 
+import javax.enterprise.context.RequestScoped;
 //import javax.ejb.EJB;not needed anymore as we took out the @EJB annotation
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-@SessionScoped
+@RequestScoped
 @Named
 public class CatalogItemFormBean implements Serializable{
-	
   @Inject  //will be preferred to @EJB
   private CatalogLocal catalogBean;
   
   @Inject //another injection point
   private InventoryService inventoryService;
-
+  
   private CatalogItem item = new CatalogItem() ;
   
   private List<CatalogItem> items = new ArrayList<>() ;
+  
+  private String searchText ;
+  
+  public void searchByName() {
+	  this.items = this.catalogBean.searchByName(this.searchText);
+  }
 
   public String addItem() {
-	  long itemId = this.catalogBean.getItems().size() + 1 ;
-	  
-	  this.catalogBean.addItem(new CatalogItem(itemId, this.item.getName(),this.item.getManufacturer(),
+	  //long itemId = this.catalogBean.getItems().size() + 1 ;
+	  this.catalogBean.addItem(new CatalogItem(/*itemId,*/ this.item.getName(),this.item.getManufacturer(),
 			  							this.item.getDescription(),this.item.getAvailableDate()));
-	  
 	  /*this.catalogBean.getItems().stream().forEach(item ->{
 		  System.out.println(item.toString());*/
-	  
 	  this.inventoryService.createItem(this.item.getItemId(), this.item.getName());
 	  /*});*/
-	  
 	  return "list?faces-redirect=true";
   }
   
@@ -58,6 +60,13 @@ public class CatalogItemFormBean implements Serializable{
   public void setItems(List<CatalogItem> items) {
 		this.items = items;
   }
-	
+
+  public String getSearchText() {
+	  return searchText ;
+  }
+  
+  public void setSearchText(String searchText) {
+	  this.searchText = searchText ;
+  }
 	
 }//CatalogItemForBean

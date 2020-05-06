@@ -11,4 +11,13 @@ public interface CatalogLocal {
 		
 		public void addItem(CatalogItem item);
 		
+		//added methods:
+		
+		public CatalogItem findItem(Long itemId);
+		
+		public void deleteItem(CatalogItem item);
+		
+		public List<CatalogItem> searchByName(String name);
+		
+		public void saveItem(CatalogItem item);
 }

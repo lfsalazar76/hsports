@@ -6,8 +6,8 @@
 
 	<ui:composition template="/template.xhtml">
 	<ui:define name="pageHeader">
-		<h:link value="#{msg['form.pageTitle']}" outcome="form"/>
-		<h:link value="#{msg['list.pageTitle']}" outcome="list"/>
+		<h:link value="#{msg['form.pageTitle']}" outcome="form" /> |
+		<h:link value="#{msg['list.pageTitle']}" outcome="list" />
 	</ui:define>
 	    <ui:define name="body">
 	    <h:outputScript library="js" name="shake.js"></h:outputScript>
@@ -21,18 +21,20 @@
 			</div>
 			<div>
 				<h:outputLabel value="Manufacturer" />
-				<h:inputText value="#{catalogItemFormBean.item.manufacturer}"></h:inputText>
+				<h:inputText id="manufacturer" value="#{catalogItemFormBean.item.manufacturer}"></h:inputText>
+				<h:message for="manufacturer" />
 			</div>
 			<div>
 				<h:outputLabel value="Available Date" />
-				<h:inputText value="#{catalogItemFormBean.item.availableDate}">
-				  <f:convertDateTime id="availableDate" type="localDate" pattern="dd-MM-yyyy"/>
+				<h:inputText id="availableDate" value="#{catalogItemFormBean.item.availableDate}">
+				  <f:convertDateTime type="localDate" pattern="dd-MM-yyyy"/>
 				</h:inputText>
 				<h:message for="availableDate" />
 			</div>
 			<div>
 				<h:outputLabel value="Description" />
-				<h:inputTextarea value="#{catalogItemFormBean.item.description}"></h:inputTextarea>
+				<h:inputTextarea id="description" value="#{catalogItemFormBean.item.description}"></h:inputTextarea>
+				<h:message for="description" />
 			</div>
 			<h:commandButton value="Submit" action="#{catalogItemFormBean.addItem()}"/>
 		</h:form>

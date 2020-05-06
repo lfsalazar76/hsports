@@ -9,15 +9,25 @@
 </f:metadata>
 <ui:composition template="/template.xhtml">
 	<ui:define name="pageHeader">
-		<h:link value="#{msg['form.pageTitle']}" outcome="form"/>
-		<h:link value="#{msg['list.pageTitle']}" outcome="list"/>
+		<h:link value="#{msg['form.pageTitle']}" outcome="form" /> |
+		<h:link value="#{msg['list.pageTitle']}" outcome="list" />
 	</ui:define>
-	    <ui:define name="body">		
+	<ui:define name="body">		
 	    
-	    <h:dataTable value="#{catalogItemFormBean.items}" var="item">
+	    <h:form>
+	      <h:outputLabel value="Search By Name: " />
+	      <h:inputText id="searchInput" value="#{catalogItemFormBean.searchText}" />
+	      <h:commandButton action="#{catalogItemFormBean.searchByName}" value="Search">
+	      	<f:ajax execute="searchInput" render="dataTable" />
+	      </h:commandButton> 
+	    </h:form>
+	    
+	    <h:dataTable id="dataTable" value="#{catalogItemFormBean.items}" var="item">
 	    	<h:column>
 	    		<f:facet name="header">Name</f:facet>
-	    		<h:outputText value="#{item.name}" />
+				<h:link value="#{item.name}" outcome="item">
+					<f:param name="itemId" value="#{item.itemId}" />
+				</h:link>
 	    	</h:column>
 	    	<h:column>
 	    		<f:facet name="header">Manufacturer</f:facet>
