@@ -3,6 +3,9 @@ package com.lfsalazar.jsf;
 
 
 import java.io.Serializable;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -22,6 +25,12 @@ public class CatalogItemDetailBean implements Serializable {
 	private long itemId;
 
 	private CatalogItem item;
+	
+	private Long quantity ;
+	
+	@Inject
+	@RemoteService
+	private InventoryService inventoryService;
 
 	@Inject
 	private Conversation conversation;
@@ -31,8 +40,27 @@ public class CatalogItemDetailBean implements Serializable {
 	
 	private ItemManager manager = new ItemManager();
 
-	public void fetchItem() {
+	public void fetchItem() throws InterruptedException, ExecutionException {
 		this.item = this.catalogBean.findItem(this.itemId);
+		
+		CountDownLatch latch = new CountDownLatch(1);
+		
+		this.inventoryService.reactiveGetQuantity(this.itemId)
+			.thenApply(item -> item.getQuantity())
+			.thenAccept(quantity -> {
+				this.setQuantity(quantity);
+				System.out.println(this.getQuantity());
+				latch.countDown();
+			});
+		
+		
+		
+		//Future<InventoryItem> future= this.inventoryService.asyncGetQuantity(this.itemId);
+		//System.out.println("Doing other working");
+		
+		//this.quantity = future.get().getQuantity();
+		System.out.println("Completed request");
+		latch.await();
 	}
 	
 	public void addManager() {
@@ -75,6 +103,22 @@ public class CatalogItemDetailBean implements Serializable {
 
 	public void setManager(ItemManager manager) {
 		this.manager = manager;
+	}
+
+	public Long getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(Long quantity) {
+		this.quantity = quantity;
+	}
+
+	public InventoryService getInventoryService() {
+		return inventoryService;
+	}
+
+	public void setInventoryService(InventoryService inventoryService) {
+		this.inventoryService = inventoryService;
 	}
 
 	

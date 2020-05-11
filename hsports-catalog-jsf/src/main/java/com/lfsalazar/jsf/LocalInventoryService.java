@@ -3,6 +3,8 @@ package com.lfsalazar.jsf;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.Future;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
@@ -32,6 +34,18 @@ public class LocalInventoryService implements InventoryService {
 	@Override
 	public Long getQuantity(Long catalogItemId) {
 		return 0L;
+	}
+
+	@Override
+	public Future<InventoryItem> asyncGetQuantity(Long catalogItemId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CompletionStage<InventoryItem> reactiveGetQuantity(Long catalogItemId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
